@@ -40,4 +40,12 @@ def wikisearch(array):
 
 	print summary
 
-wikisearch('Albert Einstein') 
+parameters = '' 
+
+if len(sys.argv) <= 1:
+	print 'No search term supplied.'
+	print 'Usage: ./wikiparse <search term>' 
+	sys.exit()
+for i in range(1, len(sys.argv)):
+	parameters += ' ' +  str(sys.argv[i]) 
+wikisearch(parameters) 
