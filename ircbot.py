@@ -38,14 +38,20 @@ nick    = ConfigSectionMap("irc")["nickname"]
 ircname = ConfigSectionMap("irc")["realname"]
 port = int(ConfigSectionMap("irc")["port"])
 listenkey = ConfigSectionMap("irc")["listenkey"]
- 
+password = "" 
+
 class Bot(irc.IRCClient):
     def _get_nickname(self):
         return self.factory.nickname
     nickname = property(_get_nickname)
 
     def signedOn(self):
-        self.join(self.factory.channel)
+        if password != "":
+            print "joining with password", password
+            self.join(self.factory.channel, password)
+        else:
+            self.join(self.factory.channel)
+
         print "Signed on as %s." % self.nickname
  
     def joined(self, channel):
@@ -125,6 +131,8 @@ if __name__ == "__main__":
     if len(sys.argv) <= 1:
         print "Please supply a channel to join as a command line argument."
         sys.exit()
+    if len(sys.argv) == 3:
+        password = sys.argv[2]
 
     chan = sys.argv[1]
     reactor.connectTCP(server, port, BotFactory('#' + chan))
