@@ -7,12 +7,11 @@
 
 '''  
 import sys
-from twisted.internet import reactor, protocol
+from twisted.internet import reactor, protocol, ssl
 from twisted.words.protocols import irc
 import re
 import wikiparse
 import ConfigParser
-
 #function to get the items from the configurations file
 #configuration file should look something like this:
 # [irc]
@@ -135,6 +134,6 @@ if __name__ == "__main__":
         password = sys.argv[2]
 
     chan = sys.argv[1]
-    reactor.connectTCP(server, port, BotFactory('#' + chan))
+    reactor.connectSSL(server, port, BotFactory('#' + chan), ssl.ClientContextFactory())
     reactor.run() 
 
