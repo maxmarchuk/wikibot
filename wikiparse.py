@@ -5,15 +5,35 @@ import urllib2
 from bs4 import BeautifulSoup 
 from subprocess import call
 
-def clean_output(output_to_clean):
+def cleanOutput(toClean):
     #perform a regex sweep to remove all of the numbers that 
     #are contained in square brackets. e.g. "1234[5]" -> "1234"
-    nobrackets = re.sub(r'\[[0-9]\]', '', output_to_clean) 
-    noparens = re.sub(r'\([^)]*\)', '', nobrackets)
-    nocitation = noparens.replace("[citation needed]", '') 
-    final = nocitation.replace(' ,', '')
+    #nobrackets = re.sub(r'\[[0-9]\]', '', output_to_clean) 
+    #noparens = re.sub(r'\([^)]*\)', '', nobrackets)
+    #nocitation = noparens.replace("[citation needed]", "") 
+    nobrackets = removeBrackets(toClean) 
+    #final = nobrackets.replace(' ,', '')
+    final = re.sub(r'\ \.', '.', nobrackets)
+    final = re.sub(r'\ ,', ',', final)
+    final = re.sub(r'\ \ ', ' ', final)
     return final
-    #return final.encode('utf-8') + '\n' 
+
+def removeBrackets(test_str):
+    ret = ''
+    skip1c = 0
+    skip2c = 0
+    for i in test_str:
+        if i == '[':
+            skip1c += 1
+        elif i == '(':
+            skip2c += 1
+        elif i == ']' and skip1c > 0:
+            skip1c -= 1
+        elif i == ')'and skip2c > 0:
+            skip2c -= 1
+        elif skip1c == 0 and skip2c == 0:
+            ret += i
+    return ret
 
 def wikisearch(array):
     
@@ -25,7 +45,7 @@ def wikisearch(array):
     #trim up the array and swap the spaces with underscores 
     search_term = array 
     search_term = search_term.strip(' ')
-    print "\n" + search_term.title()
+    print "\nSearching for " + search_term.title()
     search_term = search_term.replace(' ', '_').strip()
 
     url = "http://en.wikipedia.org/w/index.php?title=" + search_term + "&printable=yes"
@@ -48,14 +68,16 @@ def wikisearch(array):
 
     #check to see if search term is ambigious 
     if summary.find("may refer to") > 0: 
-        print "Ambigous search term. Showing possible terms:"	
+        return "DISAMBIGUATE!"
+    '''
         #disambiguate -- show the person which options are allowed
         lists = soup.find_all('li')
         for li in lists:
-            print li.find('a').contents[0]
+            if len(li.find('a').contents) > 0:
+                print li.find('a').contents[0]
         sys.exit()
-    return clean_output(summary)
-
+    '''
+    return cleanOutput(summary)
 if __name__ == '__main__':
 
     parameters = '' 
@@ -69,4 +91,4 @@ if __name__ == '__main__':
     for i in range(1, len(sys.argv)):
         parameters += ' ' +  str(sys.argv[i]) 
 
-    print clean_output(wikisearch(parameters))
+    print wikisearch(parameters)
