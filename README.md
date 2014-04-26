@@ -9,29 +9,20 @@ The script that the bot calls can also be used on its own.
 Installation/Usage
 --------
 There isn't really anything to install; just clone the repo with  
-<<<<<<< HEAD
 
 `git clone https://github.com/maxmarchuk/wikibot`
 
-and 
+
+To see the usage for the standalone script, run 
 
 `./wikiparse.py`
 
-to see the usage for the standalone script.
 
-To use the irc bot, create a `settings.ini` file and format it as shown in the example.settings.ini and run
+To use the irc bot, first create a `settings.ini` file and format it as shown in the example.settings.ini
+Then run
 
 `./ircbot.py <channel> <password>`
 
-=======
-`git clone https://github.com/maxmarchuk/wikibot`
-and 
-`./wikiparse.py`
-to see the usage for the standalone script.
-
-To use the irc bot, create a `settings.ini` file and format it as shown in the example.settings.ini and run
-`./ircbot.py <channel> <password>`
->>>>>>> 0406fd14d1d10711bfe16ccd02a67eabf0ba4898
 Leave the password blank if there is none.
 
 Disclaimer
