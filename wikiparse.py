@@ -12,7 +12,8 @@ def clean_output(output_to_clean):
     noparens = re.sub(r'\([^)]*\)', '', nobrackets)
     nocitation = noparens.replace("[citation needed]", '') 
     final = nocitation.replace(' ,', '')
-    return final.encode('utf-8') + '\n' 
+    return final
+    #return final.encode('utf-8') + '\n' 
 
 def wikisearch(array):
     
@@ -28,12 +29,13 @@ def wikisearch(array):
     search_term = search_term.replace(' ', '_').strip()
 
     url = "http://en.wikipedia.org/w/index.php?title=" + search_term + "&printable=yes"
-    print "!!!!URL: " + url
+
     try:
         infile = opener.open(url)
     except urllib2.HTTPError, e:
         print "Unable to find your search term. "
-        sys.exit()
+        return ""
+        #sys.exit()
 
     openedfile = infile.read()
     soup = BeautifulSoup(openedfile)
@@ -53,8 +55,6 @@ def wikisearch(array):
             print li.find('a').contents[0]
         sys.exit()
     return clean_output(summary)
-#
-#
 
 if __name__ == '__main__':
 
@@ -70,7 +70,3 @@ if __name__ == '__main__':
         parameters += ' ' +  str(sys.argv[i]) 
 
     print clean_output(wikisearch(parameters))
-
-
-
-
