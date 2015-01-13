@@ -7,31 +7,31 @@ from subprocess import call
 
 def cleanOutput(toClean):
     #perform a regex sweep to remove all of the numbers that 
-    #are contained in square brackets. e.g. "1234[5]" -> "1234"
-    #nobrackets = re.sub(r'\[[0-9]\]', '', output_to_clean) 
-    #noparens = re.sub(r'\([^)]*\)', '', nobrackets)
-    #nocitation = noparens.replace("[citation needed]", "") 
-    nobrackets = removeBrackets(toClean) 
-    #final = nobrackets.replace(' ,', '')
-    final = re.sub(r'\ \.', '.', nobrackets)
-    final = re.sub(r'\ ,', ',', final)
-    final = re.sub(r'\ \ ', ' ', final)
+    #are contained in square brackets or parens
+    nobrackets = removeBracksAndParens(toClean) 
+
+	#remove spaces before periods	
+    periods = re.sub(r'\ \.', '.', nobrackets)
+
+	#remove spaces before commas 
+    commas = re.sub(r'\ ,', ',', periods)
+    final = re.sub(r'\ \ ', ' ', commas)
     return final
 
-def removeBrackets(test_str):
+def removeBracksAndParens(str):
     ret = ''
-    skip1c = 0
-    skip2c = 0
-    for i in test_str:
+    skipBracket = 0
+    skipParens = 0
+    for i in str:
         if i == '[':
-            skip1c += 1
+            skipBracket += 1
         elif i == '(':
-            skip2c += 1
-        elif i == ']' and skip1c > 0:
-            skip1c -= 1
-        elif i == ')'and skip2c > 0:
-            skip2c -= 1
-        elif skip1c == 0 and skip2c == 0:
+            skipParens += 1
+        elif i == ']' and skipBracket > 0:
+            skipBracket -= 1
+        elif i == ')'and skipParens > 0:
+            skipParens -= 1
+        elif skipBracket == 0 and skipParens == 0:
             ret += i
     return ret
 

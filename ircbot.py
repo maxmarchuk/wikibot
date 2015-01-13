@@ -12,6 +12,7 @@ from twisted.words.protocols import irc
 import re
 import wikiparse
 import ConfigParser
+
 #function to get the items from the configurations file
 #configuration file should look something like this:
 # [irc]
