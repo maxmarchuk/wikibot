@@ -68,15 +68,14 @@ def wikisearch(array):
 
     #check to see if search term is ambigious 
     if summary.find("may refer to") > 0: 
-        return "DISAMBIGUATE!"
-    '''
+        return "Please disambiguate your search term."
         #disambiguate -- show the person which options are allowed
         lists = soup.find_all('li')
         for li in lists:
             if len(li.find('a').contents) > 0:
                 print li.find('a').contents[0]
         sys.exit()
-    '''
+   
     return cleanOutput(summary)
 if __name__ == '__main__':
 

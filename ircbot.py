@@ -29,6 +29,7 @@ def ConfigSectionMap(section):
         except:
             print("exception on %s!" % option)
             dict1[option] = None
+            sys.exit()
     return dict1
 
 Config = ConfigParser.ConfigParser()
@@ -97,7 +98,6 @@ def wikiSearch(self, term):
         cmsg(self, sentences[0] + '. ' + sentences[1] + '.' + sentences[2] + '.')
 
 def wikiSearchFull(self, term):
-    #cmsg(self, "Searching for" + term)
     searchResult = wikiparse.wikisearch(term).encode("utf-8")
     if searchResult == "": 
         cmsg(self, "I couldn't find anything, sorry")
