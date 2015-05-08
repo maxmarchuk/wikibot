@@ -39,7 +39,7 @@ nick    = ConfigSectionMap("irc")["nickname"]
 ircname = ConfigSectionMap("irc")["realname"]
 port = int(ConfigSectionMap("irc")["port"])
 listenkey = ConfigSectionMap("irc")["listenkey"]
-password = "" 
+password =  ConfigSectionMap("irc")["password"]
 
 class Bot(irc.IRCClient):
     def _get_nickname(self):
@@ -131,8 +131,6 @@ if __name__ == "__main__":
     if len(sys.argv) <= 1:
         print "Please supply a channel to join as a command line argument (no need to prepend a #)"
         sys.exit()
-    if len(sys.argv) == 3:
-        password = sys.argv[2]
 
     chan = sys.argv[1]
     reactor.connectSSL(server, port, BotFactory('#' + chan), ssl.ClientContextFactory())

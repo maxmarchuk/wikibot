@@ -46,6 +46,9 @@ def wikisearch(array):
     search_term = array 
     search_term = search_term.strip(' ')
     print "\nSearching for " + search_term.title()
+    if(search_term == 'slim' or search_term == 'Slim'):
+        noslim = "I'm sorry, that information is confidential."
+        return noslim
     search_term = search_term.replace(' ', '_').strip()
 
     url = "http://en.wikipedia.org/w/index.php?title=" + search_term + "&printable=yes"
